@@ -1,0 +1,110 @@
+body {
+font-family: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+font-size: 1.6rem;
+color: gold;
+background: #212121;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+body::background {
+  animation: neon-glow 6s ease-in-out infinite alternate;;
+}
+
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ff00ff;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Forms */
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+textarea {
+  font-size: 1.6rem;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #222;
+  color: #fff;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 0 1px #ccc;
+}
+
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus,
+input[type='number']:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ff00ff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ccc;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Buttons */
+button {
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #ccc;
+}
+
+/* Animations */
+@keyframes rainbow-text {
+  0% {
+    color: #ff00ff;
+  }
+  25% {
+    color: #00ffff;
+  }
+  50% {
+    color: #ffff00;
+  }
+  75% {
+    color: #ff7f00;
+  }
+  100% {
+    color: #ff00ff;
+  }
+}
+
+@keyframes neon-glow {
+  from {
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+  }
+  to {
+    text-shadow: 0 0 20px #00ffff, 0 0 30px #ffff00, 0 0 40px #ff7f00, 0 0 50px #ff00ff;
+  }
+}
+

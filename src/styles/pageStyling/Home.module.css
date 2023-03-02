@@ -1,0 +1,79 @@
+/* App container */
+#app-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* App title */
+#app-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Week navigation container */
+#week-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Previous and next week buttons */
+#prev-week-btn,
+#next-week-btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Week title */
+#week-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Time table container */
+#time-table-container {
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Time table */
+.table {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(24, 1fr);
+  gap: 1px;
+}
+
+/* Table row */
+.table-row {
+  display: flex;
+}
+
+/* Table cell */
+.table-cell {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #eaeaea;
+}
+
+/* Table header row */
+.table-header {
+  font-weight: bold;
+  background-color: #f7fafc;
+}
+
+/* Table header cell */
+.table-header .table-cell {
+  background-color: #f7fafc;
+  border-color: #eaeaea;
+}
