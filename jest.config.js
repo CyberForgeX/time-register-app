@@ -1,3 +1,5 @@
+setupFilesAfterEnv: [path.join(__dirname, './jest.setup.ts')],
+
 module.exports = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {

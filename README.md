@@ -5,9 +5,9 @@
 - [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Turbo](https://turbo.hotwire.dev/)
+- [Turbo](https://turbo.build/repo/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Sass](https://sass-lang.com/)
+- [Jest] (https://jestjs.io/)
 
 ## Requirements
 
