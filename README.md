@@ -7,7 +7,7 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Turbo](https://turbo.build/repo/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Jest] (https://jestjs.io/)
+- [Jest](https://jestjs.io/)
 
 ## Requirements
 
