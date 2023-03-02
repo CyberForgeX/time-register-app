@@ -1,0 +1,17 @@
+# Next.js
+.next/
+out/
+
+# dependencies
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+
+# testing
+coverage/
+
+# production
+build/
+.cache/
+.vercel/
+public/_next/

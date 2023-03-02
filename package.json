@@ -1,0 +1,42 @@
+{
+  "name": "time-register-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "@types/node": "^16.11.7",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "date-fns": "^2.28.0",
+    "next": "^12.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "swr": "^1.1.4",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "eslint": "^8.9.0",
+    "eslint-config-next": "^13.2.3",
+    "eslint-plugin-react": "^7.29.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^27.4.5",
+    "prettier": "^2.5.1",
+    "tailwindcss-debug-screens": "^2.2.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2"
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
+  }
+}
