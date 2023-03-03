@@ -77,3 +77,180 @@
   background-color: #f7fafc;
   border-color: #eaeaea;
 }
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #e0e2ea;
+}
+
+#headerLogo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1c1f2b;
+  text-decoration: none;
+}
+
+#headerNav {
+  display: flex;
+}
+
+#headerNav li {
+  margin-left: 1rem;
+}
+
+#headerNav a {
+  font-weight: bold;
+}
+
+/* Main content */
+
+#main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Sidebar */
+
+#sidebar {
+  background-color: #e0e2ea;
+  padding: 1rem;
+}
+
+#sidebarTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1c1f2b;
+  margin-bottom: 1rem;
+}
+
+#sidebarMenu {
+  margin: 0;
+  padding: 0;
+}
+
+#sidebarMenu li {
+  margin-bottom: 1rem;
+}
+
+#sidebarMenu a {
+  display: block;
+  padding: 0.5rem;
+  color: #1c1f2b;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  font-size: 1.1rem;
+}
+
+#sidebarMenu a:hover {
+  background-color: #1c1f2b;
+  color: #f3f3f3;
+}
+
+#sidebarMenu a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #1c1f2b;
+  transform: scaleX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+#sidebarMenu a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Content */
+
+#content {
+  display: flex;
+  flex-direction: column;
+}
+
+#contentTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1c1f2b;
+  margin-bottom: 1rem;
+}
+
+#contentDescription {
+  font-size: 1.2rem;
+  color: #1c1f2b;
+  margin-bottom: 2rem;
+}
+
+#contentForm {
+  display: flex;
+  flex-direction: column;
+  background-color: #f3f3f3;
+  border: 1px solid #1c1f2b;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+#contentFormTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1c1f2b;
+  margin-bottom: 1rem;
+}
+
+.contentFormInput {
+margin-bottom: 1rem;
+}
+
+#contentFormLabel {
+font-size: 1.1rem;
+color: #1c1f2b;
+margin-bottom: 0.5rem;
+}
+
+.contentFormInput input[type="text"],
+.contentFormInput input[type="email"],
+.contentFormInput input[type="password"],
+.contentFormInput textarea {
+width: 100%;
+padding: 0.5rem;
+border: 1px solid #d1d5db;
+border-radius: 0.25rem;
+font-family: inherit;
+font-size: 1rem;
+color: #1c1f2b;
+background-color: #fff;
+transition: border-color 0.2s ease-in-out;
+}
+
+.contentFormInput input[type="text"]:focus,
+.contentFormInput input[type="email"]:focus,
+.contentFormInput input[type="password"]:focus,
+.contentFormInput textarea:focus {
+outline: none;
+border-color: var(--accent-color);
+}
+
+.contentFormInput button[type="submit"] {
+display: inline-block;
+padding: 0.5rem 1rem;
+border: none;
+border-radius: 0.25rem;
+font-size: 1rem;
+font-weight: bold;
+color: #fff;
+background-color: var(--accent-color);
+transition: background-color 0.2s ease-in-out;
+cursor: pointer;
+}
+
+.contentFormInput button[type="submit"]:hover {
+background-color: #ff4d4d;
+}
