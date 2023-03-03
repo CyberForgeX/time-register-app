@@ -10,22 +10,26 @@ type FormError = {
 
 type TimeEntryFormProps = {
   timeEntries: TimeEntry[];
+  filteredTimeEntries?: TimeEntry[];
+  entries: TimeEntry[];
   onAddTimeEntry: (entry: TimeEntry) => void;
   onDeleteTimeEntry: (id: number) => void;
 };
 
 const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
   timeEntries,
+  filteredTimeEntries,
+  entries,
   onAddTimeEntry,
   onDeleteTimeEntry,
 }) => {
   const [hours, setHours] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
   const [formErrors, setFormErrors] = useState<FormError[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const errors = validateForm();
     if (errors.length > 0) {
       setFormErrors(errors);
@@ -71,6 +75,14 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
     onDeleteTimeEntry(id);
   };
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredEntries = entries.filter((entry) => {
+    return entry.comment.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   return (
     <form onSubmit={handleSubmit} className={styles.formInputs}>
       <div className={styles.formGroup}>
@@ -100,35 +112,46 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
           onChange={handleCommentChange}
         ></textarea>
       </div>
-      {formErrors.length > 0 && (
-        <div className={styles.errorList}>
-          {formErrors.map((error, index) => (
-            <p key={index} className={styles.errorItem}>
-              {error.message}
-            </p>
-          ))}
-        </div>
-      )}
-      <button type="submit" className={styles.btnSubmit}>
-        Save
-      </button>
-      <ul>
-        {timeEntries.map((entry) => (
-          <li key={entry.id}>
-            {entry.hours} hours - {entry.comment}
-<button
-  onClick={() => {
-    handleDeleteTimeEntry(entry.id);
-  }}
-  className={styles.btnDelete}
->
-  Delete
-</button>
-</li>
-))}
-</ul>
+      <div className={styles.searchGroup}>
+        <label htmlFor="search" className={styles.searchLabel}>
+          Search:
+        </label>
+        <input
+          type="text"
+          id="search"
+          name="search"
+      className={styles.searchControl}
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  </div>
 
-  </form>
+  <button type="submit" className={styles.btnSubmit}>
+    Save
+  </button>
+
+  {filteredTimeEntries && filteredTimeEntries.length > 0 ? (
+    <ul>
+      {filteredTimeEntries.map((entry) => (
+        <li key={entry.id}>
+          {entry.hours} hours - {entry.comment}
+          <button
+            onClick={() => {
+              handleDeleteTimeEntry(entry.id);
+            }}
+            className={styles.btnDelete}
+          >
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No time entries found.</p>
+  )}
+</form>
+
 );
 };
+
 export default TimeEntryForm;
