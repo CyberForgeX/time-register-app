@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import TimeEntry from '../../types/TimeEntry';
-import styles from './Filter.module.css';
+import { useState } from "react";
+import TimeEntry from "../../types/TimeEntry";
+import styles from "./Filter.module.css";
 
 type FilterProps = {
   timeEntries: TimeEntry[];
@@ -18,8 +18,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
     if (selectedDate) {
       filteredEntries = filteredEntries.filter(
         (entry) =>
-          new Date(entry.date).getFullYear() ===
-            selectedDate.getFullYear() &&
+          new Date(entry.date).getFullYear() === selectedDate.getFullYear() &&
           new Date(entry.date).getMonth() === selectedDate.getMonth() &&
           new Date(entry.date).getDate() === selectedDate.getDate()
       );
@@ -56,7 +55,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
             type="date"
             id="date"
             className={styles.input}
-            value={selectedDate?.toISOString().substr(0, 10) || ''}
+            value={selectedDate?.toISOString().substr(0, 10) || ""}
             onChange={(e) => handleDateSelected(new Date(e.target.value))}
           />
         </div>
@@ -68,7 +67,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
           <select
             id="project"
             className={styles.input}
-            value={selectedProject || ''}
+            value={selectedProject || ""}
             onChange={(e) => setSelectedProject(e.target.value)}
           >
             <option value="">All projects</option>
@@ -85,7 +84,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
           <select
             id="category"
             className={styles.input}
-            value={selectedCategory || ''}
+            value={selectedCategory || ""}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="">All categories</option>

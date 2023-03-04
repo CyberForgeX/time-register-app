@@ -68,12 +68,12 @@
     padding: 10px;
     grid-template-columns: 1fr;
   }
-  
+
   .form-control {
     font-size: 14px;
     padding: 8px;
   }
-  
+
   .btn-submit {
     font-size: 16px;
     padding: 8px 16px;

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import TimeEntry from '../../types/TimeEntry';
-import styles from './Timesheet.module.css';
+import { useState } from "react";
+import TimeEntry from "../../types/TimeEntry";
+import styles from "./Timesheet.module.css";
 
 type TimesheetProps = {
   timeEntries: TimeEntry[];
@@ -52,7 +52,9 @@ const Timesheet: React.FC<TimesheetProps> = ({
           {timeEntries.map((entry) => (
             <tr
               key={entry.id}
-              className={selectedEntryId === entry.id ? styles.rowSelected : styles.row}
+              className={
+                selectedEntryId === entry.id ? styles.rowSelected : styles.row
+              }
               onClick={() => handleEntryClick(entry)}
             >
               <td>{entry.date}</td>
@@ -74,9 +76,12 @@ const Timesheet: React.FC<TimesheetProps> = ({
       <h1>Timesheet</h1>
       {renderTimeEntries()}
       {selectedEntryId !== null && (
-        <div className={styles.modal} role="dialog" aria-labelledby="edit-modal-title">
+        <div
+          className={styles.modal}
+          role="dialog"
+          aria-labelledby="edit-modal-title"
+        >
           <h2 id="edit-modal-title">Edit Time Entry</h2>
-          {/* TODO: Implement edit form */}
           <button onClick={handleModalClose}>Close</button>
         </div>
       )}

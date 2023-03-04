@@ -1,0 +1,15 @@
+
+> time-register-app@1.0.0 test /home/eirik/Coding/jobInterview/fckedup/time-register-app
+> jest
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'swc-js' imported from /home/eirik/Coding/jobInterview/fckedup/time-register-app/jest.config.js
+    at new NodeError (node:internal/errors:399:5)
+    at packageResolve (node:internal/modules/esm/resolve:794:9)
+    at moduleResolve (node:internal/modules/esm/resolve:843:20)
+    at defaultResolve (node:internal/modules/esm/resolve:1058:11)
+    at nextResolve (node:internal/modules/esm/loader:163:28)
+    at ESMLoader.resolve (node:internal/modules/esm/loader:835:30)
+    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:416:18)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)
+    at link (node:internal/modules/esm/module_job:75:36)
+ ELIFECYCLE  Test failed. See above for more details.

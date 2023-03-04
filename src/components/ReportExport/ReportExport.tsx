@@ -20,7 +20,9 @@ const ReportExport: React.FC<ReportExportProps> = ({ data, onExport }) => {
     // generate the report in the desired format and return the data
     if (format === "csv") {
       // generate CSV data
-      const csvData = data.map((row) => Object.values(row).join(",")).join("\n");
+      const csvData = data
+        .map((row) => Object.values(row).join(","))
+        .join("\n");
       return csvData;
     } else {
       // generate PDF data
@@ -33,7 +35,9 @@ const ReportExport: React.FC<ReportExportProps> = ({ data, onExport }) => {
     <div className={styles.reportExport}>
       <h3 className={styles.title}>Generate Report or Export Data</h3>
       <div className={styles.formatSelect}>
-        <label htmlFor="formatSelect" className={styles.label}>Report Format:</label>
+        <label htmlFor="formatSelect" className={styles.label}>
+          Report Format:
+        </label>
         <select
           id="formatSelect"
           value={reportFormat}
@@ -44,7 +48,9 @@ const ReportExport: React.FC<ReportExportProps> = ({ data, onExport }) => {
           <option value="pdf">PDF</option>
         </select>
       </div>
-      <button onClick={handleExportClick} className={styles.exportBtn}>Export Data</button>
+      <button onClick={handleExportClick} className={styles.exportBtn}>
+        Export Data
+      </button>
     </div>
   );
 };

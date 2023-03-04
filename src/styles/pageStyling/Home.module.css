@@ -154,7 +154,7 @@
 }
 
 #sidebarMenu a::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
@@ -206,51 +206,51 @@
 }
 
 .contentFormInput {
-margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 #contentFormLabel {
-font-size: 1.1rem;
-color: #1c1f2b;
-margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #1c1f2b;
+  margin-bottom: 0.5rem;
 }
 
 .contentFormInput input[type="text"],
 .contentFormInput input[type="email"],
 .contentFormInput input[type="password"],
 .contentFormInput textarea {
-width: 100%;
-padding: 0.5rem;
-border: 1px solid #d1d5db;
-border-radius: 0.25rem;
-font-family: inherit;
-font-size: 1rem;
-color: #1c1f2b;
-background-color: #fff;
-transition: border-color 0.2s ease-in-out;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #1c1f2b;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out;
 }
 
 .contentFormInput input[type="text"]:focus,
 .contentFormInput input[type="email"]:focus,
 .contentFormInput input[type="password"]:focus,
 .contentFormInput textarea:focus {
-outline: none;
-border-color: var(--accent-color);
+  outline: none;
+  border-color: var(--accent-color);
 }
 
 .contentFormInput button[type="submit"] {
-display: inline-block;
-padding: 0.5rem 1rem;
-border: none;
-border-radius: 0.25rem;
-font-size: 1rem;
-font-weight: bold;
-color: #fff;
-background-color: var(--accent-color);
-transition: background-color 0.2s ease-in-out;
-cursor: pointer;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: var(--accent-color);
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .contentFormInput button[type="submit"]:hover {
-background-color: #ff4d4d;
+  background-color: #ff4d4d;
 }

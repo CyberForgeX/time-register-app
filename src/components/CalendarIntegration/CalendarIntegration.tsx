@@ -5,16 +5,14 @@ import moment from "moment";
 import styles from "./CalendarIntegration.module.css";
 import TimeEntry from "../../types/TimeEntry";
 import TimeEntryList from "../TimeEntryList/TimeEntryList";
+import EventList from "../EventList/EventList";
+import nbLocale from "moment/locale/nb";
 
 type CalendarIntegrationProps = {
-  onDateSelected: (date: Date) => void;
+  onDateSelected: (date: Date | null) => void;
   events: TimeEntry[];
   disabledDates?: Date[];
 };
-
-const DynamicCalendar = dynamic(() => import("react-big-calendar"), {
-  ssr: false,
-});
 
 const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
   onDateSelected,
@@ -34,6 +32,12 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
     }
   };
 
+  const handleDateSelected = (date: Date | null) => {
+    if (typeof onDateSelected === "function") {
+      onDateSelected(date);
+    }
+  };
+
   const tileDisabled = ({ activeStartDate, date, view }: any) => {
     if (view === "month") {
       const year = date.getFullYear();
@@ -48,11 +52,10 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
     }
   };
 
-  // Use Norwegian locale for calendar
-  moment.locale("nb");
+  moment.locale("nb", nbLocale);
 
   return (
-    <div className={`${styles.calendarContainer} bg-black`}>
+    <div className={styles.calendarContainer}>
       <h3 className={styles.title}>Kalenderintegrasjon</h3>
       <div className={styles.calendar}>
         <div className={styles.calendarLeft}>
@@ -71,11 +74,33 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
                 start: new Date(entry.date),
                 end: new Date(entry.date),
               }))}
+              onSelectEvent={(event) => handleDateSelected(event.start)}
+              titleAccessor={(event) =>
+                `${event.title} - ${moment(event.start).format("ll")}`
+              }
+              prevLabel="Forrige"
+              nextLabel="Neste"
+              onView={(view) => console.log(`View changed to ${view}`)}
+              allDayAccessor={() => true}
+              messages={{
+                allDay: "Hele dagen",
+                previous: "Forrige",
+                next: "Neste",
+                today: "I dag",
+                month: "Måned",
+                week: "Uke",
+                day: "Dag",
+                agenda: "Agenda",
+                date: "Dato",
+                time: "Tid",
+                event: "Hendelse",
+                noEventsInRange: "Ingen hendelser i denne perioden.",
+              }}
             />
           )}
         </div>
         <div className={styles.calendarRight}>
-          <TimeEntryList />
+          <EventList events={events} />
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ out/
 node_modules/
 pnpm-lock.yaml
 yarn.lock
++ .turbo
 
 # testing
 coverage/

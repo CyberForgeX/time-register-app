@@ -7,18 +7,17 @@
 
 .filter label {
   margin-right: 0.5rem;
-    flex-direction: column;
+  flex-direction: column;
   display: flex;
   flex-direction: column;
 }
 
 .filter select,
-.filter input[type='date'] {
+.filter input[type="date"] {
   padding: 0.25rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   font-size: 1rem;
-
 }
 
 .filter button {
@@ -42,7 +41,7 @@
 }
 
 .filter select,
-.filter input[type='date'],
+.filter input[type="date"],
 .filter button {
   width: 8rem;
 }

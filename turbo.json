@@ -1,59 +1,40 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "pipelines": {
     "build": {
-      "environment": {
-        "CI": "true",
-        "NODE_ENV": "production"
-      },
       "steps": [
         {
-          "name": "Checkout",
-          "run": "checkout"
-        },
-        {
           "name": "Install Dependencies",
-          "run": "pnpm ci"
+          "run": "turbo pnpm install"
         },
         {
           "name": "Build",
-          "run": "pnpm run build"
+          "run": "turbo pnpm run build"
         }
       ],
-      "outputs": [
-        ".next/**",
-        "!**/*.tsbuildinfo"
-      ]
+      "outputs": ["dist/**"]
     },
     "lint": {
       "steps": [
         {
-          "name": "Checkout",
-          "run": "checkout"
-        },
-        {
           "name": "Install Dependencies",
-          "run": "pnpm ci"
+          "run": "turbo pnpm install"
         },
         {
           "name": "Lint",
-          "run": "pnpm run lint"
+          "run": "turbo pnpm run lint"
         }
       ]
     },
     "test": {
       "steps": [
         {
-          "name": "Checkout",
-          "run": "checkout"
-        },
-        {
           "name": "Install Dependencies",
-          "run": "pnpm ci"
+          "run": "turbo pnpm install"
         },
         {
           "name": "Test",
-          "run": "pnpm test"
+          "run": "turbo pnpm run test"
         }
       ],
       "artifacts": [
@@ -62,6 +43,19 @@
           "paths": ["coverage/**"]
         }
       ]
+    },
+    "start": {
+      "steps": [
+        {
+          "name": "Install Dependencies",
+          "run": "turbo pnpm install"
+        },
+        {
+          "name": "Start",
+          "run": "turbo pnpm run start"
+        }
+      ],
+      "ports": [3000]
     }
   }
 }

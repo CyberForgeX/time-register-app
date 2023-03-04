@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import TimeEntry from '../../types/TimeEntry';
+import { useState } from "react";
+import TimeEntry from "../../types/TimeEntry";
 
 type TimeAdjustmentProps = {
   timeEntries: TimeEntry[];
@@ -11,8 +11,8 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
   onAddTimeEntry,
 }) => {
   const [date, setDate] = useState<Date>(new Date());
-  const [project, setProject] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+  const [project, setProject] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
   const [hours, setHours] = useState<number>(0);
 
   const handleAddTimeEntry = () => {
@@ -27,7 +27,9 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
       .filter((entry) => {
         const entryDate = new Date(entry.date);
         const today = new Date();
-        const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+        const startOfWeek = new Date(
+          today.setDate(today.getDate() - today.getDay())
+        );
         return (
           entryDate.getFullYear() === date.getFullYear() &&
           entryDate.getMonth() === date.getMonth() &&
@@ -37,7 +39,7 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
       .reduce((total, entry) => total + entry.hours, 0);
 
     if (totalHoursThisWeek + hours > 100) {
-      alert('You have reached the 100-hour limit for this week.');
+      alert("You have reached the 100-hour limit for this week.");
       return;
     }
 

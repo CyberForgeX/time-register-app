@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { TimeEntry } from '../types/TimeEntry';
-import ErrorList from '../ErrorList/ErrorList';
-import styles from './TimeEntryForm.module.css';
-import TimeAdjustment from '../TimeAdjustment/TimeAdjustment';
-import ReportExport from '../ReportExport/ReportExport';
+import { useState } from "react";
+import { TimeEntry } from "../types/TimeEntry";
+import ErrorList from "../ErrorList/ErrorList";
+import styles from "./TimeEntryForm.module.css";
+import TimeAdjustment from "../TimeAdjustment/TimeAdjustment";
+import ReportExport from "../ReportExport/ReportExport";
 
 type FormError = {
   field: string;
@@ -26,9 +26,9 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
   onDeleteTimeEntry,
 }) => {
   const [hours, setHours] = useState<number>(0);
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>("");
   const [formErrors, setFormErrors] = useState<FormError[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [reportData, setReportData] = useState<any>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,7 +48,7 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
     };
     onAddTimeEntry(newEntry);
     setHours(0);
-    setComment('');
+    setComment("");
     setFormErrors([]);
   };
 
@@ -56,11 +56,14 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
     const errors: FormError[] = [];
 
     if (hours <= 0 || hours > 24) {
-      errors.push({ field: 'hours', message: 'Hours must be between 1 and 24.' });
+      errors.push({
+        field: "hours",
+        message: "Hours must be between 1 and 24.",
+      });
     }
 
     if (comment.trim().length === 0) {
-      errors.push({ field: 'comment', message: 'Comment is required.' });
+      errors.push({ field: "comment", message: "Comment is required." });
     }
 
     return errors;
@@ -70,7 +73,9 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
     setHours(parseInt(event.target.value));
   };
 
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setComment(event.target.value);
   };
 
@@ -80,100 +85,103 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-};
+  };
 
-const handleExport = (data: any) => {
-setReportData(data);
-};
+  const handleExport = (data: any) => {
+    setReportData(data);
+  };
 
-const filteredEntries = entries.filter((entry) => {
-return entry.comment.toLowerCase().includes(searchTerm.toLowerCase());
-});
+  const filteredEntries = entries.filter((entry) => {
+    return entry.comment.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
-return (
-<form onSubmit={handleSubmit} className={styles.formInputs}>
-<div className={styles.formGroup}>
-<label htmlFor="hours" className={styles.formLabel}>
-Hours:
-</label>
-<input
-       type="number"
-       id="hours"
-       name="hours"
-       className={styles.formControl}
-       required
-       value={hours}
-       onChange={handleHoursChange}
-     />
-</div>
-<div className={styles.formGroup}>
-<label htmlFor="comment" className={styles.formLabel}>
-Comment:
-</label>
-<textarea
-       id="comment"
-       name="comment"
-       className={styles.formControl}
-       required
-       value={comment}
-       onChange={handleCommentChange}
-     ></textarea>
-</div>
-<div className={styles.formGroup}>
-<button type="submit" className={styles.submitButton}>
-Add Entry
-</button>
-</div>
-{formErrors.length > 0 && <ErrorList errors={formErrors} />}
-<div className={styles.search}>
-<label htmlFor="search" className={styles.searchLabel}>
-Search:
-</label>
-<input
-         type="text"
-         id="search"
-         name="search"
-         className={styles.searchInput}
-         value={searchTerm}
-         onChange={handleSearchChange}
-       />
-</div>
-<table className={styles.table}>
-<thead>
-<tr>
-<th>Date</th>
-<th>Hours</th>
-<th>Comment</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-{filteredEntries.map((entry) => (
-<tr key={entry.id}>
-<td>{entry.createdAt.toLocaleDateString()}</td>
-<td>{entry.hours}</td>
-<td>{entry.comment}</td>
-<td>
-<button
-className={styles.deleteButton}
-onClick={() => handleDeleteTimeEntry(entry.id)}
->
-Delete
-</button>
-</td>
-</tr>
-))}
-</tbody>
-</table>
-<TimeAdjustment timeEntries={timeEntries} onAddTimeEntry={onAddTimeEntry} />
-<ReportExport data={entries} onExport={handleExport} />
-{reportData && (
-<a href={reportData} download="report">
-Download Report
-</a>
-)}
-</form>
-);
+  return (
+    <form onSubmit={handleSubmit} className={styles.formInputs}>
+      <div className={styles.formGroup}>
+        <label htmlFor="hours" className={styles.formLabel}>
+          Hours:
+        </label>
+        <input
+          type="number"
+          id="hours"
+          name="hours"
+          className={styles.formControl}
+          required
+          value={hours}
+          onChange={handleHoursChange}
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="comment" className={styles.formLabel}>
+          Comment:
+        </label>
+        <textarea
+          id="comment"
+          name="comment"
+          className={styles.formControl}
+          required
+          value={comment}
+          onChange={handleCommentChange}
+        ></textarea>
+      </div>
+      <div className={styles.formGroup}>
+        <button type="submit" className={styles.submitButton}>
+          Add Entry
+        </button>
+      </div>
+      {formErrors.length > 0 && <ErrorList errors={formErrors} />}
+      <div className={styles.search}>
+        <label htmlFor="search" className={styles.searchLabel}>
+          Search:
+        </label>
+        <input
+          type="text"
+          id="search"
+          name="search"
+          className={styles.searchInput}
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Hours</th>
+            <th>Comment</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredEntries.map((entry) => (
+            <tr key={entry.id}>
+              <td>{entry.createdAt.toLocaleDateString()}</td>
+              <td>{entry.hours}</td>
+              <td>{entry.comment}</td>
+              <td>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => handleDeleteTimeEntry(entry.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <TimeAdjustment
+        timeEntries={timeEntries}
+        onAddTimeEntry={onAddTimeEntry}
+      />
+      <ReportExport data={entries} onExport={handleExport} />
+      {reportData && (
+        <a href={reportData} download="report">
+          Download Report
+        </a>
+      )}
+    </form>
+  );
 };
 
 export default TimeEntryForm;

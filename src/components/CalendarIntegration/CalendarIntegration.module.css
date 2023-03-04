@@ -15,13 +15,13 @@
 }
 
 .dynamicCalendar {
-    min-width: 100%;
+  min-width: 100%;
   background-color: #000;
 }
 
 .calendar {
   border: 1px solid #ccc;
-  border-radius: 5px;  
+  border-radius: 5px;
   width: 800px;
   min-width: 600px;
 }
