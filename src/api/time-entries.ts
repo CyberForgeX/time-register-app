@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { TimeEntry } from '../types/TimeEntry';
 
-const API_BASE_URL = process.env.API_BASE_URL || 'https://api.example.com';
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000.com';
 
 // Create an Axios instance with default settings
 const axiosInstance: AxiosInstance = axios.create({

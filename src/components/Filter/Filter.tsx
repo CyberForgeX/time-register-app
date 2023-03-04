@@ -40,6 +40,10 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
     onFilter(filteredEntries);
   };
 
+  const handleDateSelected = (date: Date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div className={styles.filterContainer}>
       <h3 className={styles.title}>Filter</h3>
@@ -53,7 +57,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
             id="date"
             className={styles.input}
             value={selectedDate?.toISOString().substr(0, 10) || ''}
-            onChange={(e) => setSelectedDate(new Date(e.target.value))}
+            onChange={(e) => handleDateSelected(new Date(e.target.value))}
           />
         </div>
 

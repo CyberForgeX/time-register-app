@@ -8,96 +8,11 @@ body {
   max-width: 100%;
   width: 50vw;
   padding: 0;
-   display: grid;
-    grid-template-columns: auto auto auto;
-}
-
-body * {
-  color: gold;
-  padding: 0.5rem 0;
-}
-
-body > * {
-  flex: 1;
- 
-  align-content:center;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-    color: gold;
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
-}
-
-/* Styles for form inputs and textareas */
-input,
-textarea {
-  font-size: 1.6rem;
-  padding: 1.2rem;
-  border: none;
-  border-radius: 0.5rem;
-  background: #222;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 0 1px #ccc;
-  width: 100%;
-  background-color: black;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #ff00ff;
-  background-color: black;
-
-}
-
-#date, #project, #category { 
-    padding: 1.2rem;
-      width: 200px;
- }
-
- select {
-    font-size: 1.6rem;
-  padding: 1.2rem;
-  border: none;
-  border-radius: 0.5rem;
-  background: #222;
-  margin-bottom: 1rem;
-  box-shadow: 0 0 0 1px #ccc;
-  width: 100%;
-  background-color: black;
- }
-
-textarea {
-  resize: vertical;
-}
-
-/* Styles for buttons */
-button {
-  font-size: 1.6rem;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: #006edc;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-button:hover {
-  background-color: #ccc;
-}
 
 @media screen and (max-width: 786px) {
   body {

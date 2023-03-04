@@ -1,4 +1,4 @@
-type TimeEntry = {
+export interface TimeEntry {
   id: number;
   date: string;
   project: string;
@@ -7,4 +7,4 @@ type TimeEntry = {
   hours: number;
   createdAt: Date;
   updatedAt: Date;
-};
+}

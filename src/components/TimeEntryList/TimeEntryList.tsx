@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import TimeEntry from '../../types/TimeEntry';
 import ErrorList from '../ErrorList/ErrorList';
+import TimeEntryForm from '../TimeEntryForm/TimeEntryForm';
 import { deleteTimeEntry } from '../../api/deleteTimeEntry';
 import { GetServerSideProps } from 'next';
+import Timesheet from '../Timesheet/Timesheet';
 
 type Props = {
-  entries: TimeEntry[],
+  entries: TimeEntry[];
 };
 
 type SortType = 'date' | 'hours';
@@ -19,11 +21,15 @@ const TimeEntryList = ({ entries }: Props) => {
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
   const [dateFilterStart, setDateFilterStart] = useState<Date | null>(null);
   const [dateFilterEnd, setDateFilterEnd] = useState<Date | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSort = (type: SortType) => {
     setSortType(type);
-    setFilteredEntries((prev) => [...prev].sort((a, b) => (type === 'date' ? (a.date < b.date ? -1 : 1) : (a.hours < b.hours ? 1 : -1))));
+    setFilteredEntries((prev) =>
+      [...prev].sort((a, b) =>
+        type === 'date' ? (a.date < b.date ? -1 : 1) : a.hours < b.hours ? 1 : -1
+      )
+    );
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -31,7 +37,9 @@ const TimeEntryList = ({ entries }: Props) => {
   };
 
   const handleEdit = (id: string, updatedEntry: TimeEntry) => {
-    setFilteredEntries((prev) => prev.map((entry) => (entry.id === id ? updatedEntry : entry)));
+    setFilteredEntries((prev) =>
+      prev.map((entry) => (entry.id === id ? updatedEntry : entry))
+    );
     setEditingEntryId(null);
   };
 
@@ -40,10 +48,16 @@ const TimeEntryList = ({ entries }: Props) => {
       setError('Please select a valid date range.');
       return;
     }
-    setFilteredEntries(entries.filter((entry) => new Date(entry.date) >= dateFilterStart && new Date(entry.date) <= dateFilterEnd));
+    setFilteredEntries(
+      entries.filter(
+        (entry) =>
+          new Date(entry.date) >= dateFilterStart &&
+          new Date(entry.date) <= dateFilterEnd
+      )
+    );
     setDateFilterStart(null);
     setDateFilterEnd(null);
-    setError('');
+    setError(null);
     setCurrentPage(1);
   };
 
@@ -51,22 +65,36 @@ const TimeEntryList = ({ entries }: Props) => {
     setFilteredEntries(entries);
     setDateFilterStart(null);
     setDateFilterEnd(null);
-    setError('');
+    setError(null);
     setCurrentPage(1);
   };
 
-  const handleDateFilterStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDateFilterStart(isNaN(new Date(e.target.value).getTime()) ? null : new Date(e.target.value));
+  const handleDateFilterStartChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateFilterStart(
+      isNaN(new Date(e.target.value).getTime())
+        ? null
+        : new Date(e.target.value)
+    );
   };
 
-  const handleDateFilterEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDateFilterEnd(isNaN(new Date(e.target.value).getTime()) ? null : new Date(e.target.value));
+  const handleDateFilterEndChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateFilterEnd(
+      isNaN(new Date(e.target.value).getTime())
+        ? null
+        : new Date(e.target.value)
+    );
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteTimeEntry(id);
-      setFilteredEntries((prev) => prev.filter((entry) => entry.id !== id));
+      setFilteredEntries((prev) =>
+        prev.filter((entry) => entry.id !== id)
+      );
     } catch (error) {
       setError(error.message);
     }
@@ -74,130 +102,115 @@ const TimeEntryList = ({ entries }: Props) => {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setFilteredEntries(term ? entries.filter((entry) => entry.description.toLowerCase().includes(term.toLowerCase())) : entries);
-    setCurrentPage(1);
-  };
+    setFilteredEntries(
+      term
+        ? entries.filter((entry) =>
+            entry.description
+              .toLowerCase()
+              .includes(term.toLowerCase )
+)
+: entries
+);
+};
 
-  const indexOfLastEntry = currentPage * entriesPerPage;
-  const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-const currentEntries = filteredEntries ? filteredEntries.slice(indexOfFirstEntry, indexOfLastEntry) : [];
-const totalPages = filteredEntries ? Math.ceil(filteredEntries.length / entriesPerPage) : 0;
+const indexOfLastEntry = currentPage * entriesPerPage;
+const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
+const currentEntries = filteredEntries.slice(
+indexOfFirstEntry,
+indexOfLastEntry
+);
 
-const totalHours = filteredEntries ? filteredEntries.reduce((total, entry) => total + entry.hours, 0) : 0;
-
-const entriesCount = filteredEntries ? filteredEntries.length : 0;
 return (
-<div className="flex flex-col items-start">
-  <div className="flex justify-between w-full mb-4 space-x-4">
-    <div className="flex-1">
-      <input
-        className="w-full border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-transparent"
-        type="text"
-        placeholder="Search by description"
-        value={searchTerm}
-        onChange={(e) => handleSearch(e.target.value)}
-      />
-    </div>
-    <div className="flex flex-row items-center space-x-4">
-      <div>
-        <input
-          className="border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-transparent"
-          type="date"
-          value={dateFilterStart?.toISOString().substr(0, 10)}
-          onChange={handleDateFilterStartChange}
-        />
-      </div>
-      <div>
-        <span>to</span>
-      </div>
-      <div>
-        <input
-          className="border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-transparent"
-          type="date"
-          value={dateFilterEnd?.toISOString().substr(0, 10)}
-          onChange={handleDateFilterEndChange}
-        />
-      </div>
-      <div>
-        <button
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent-color hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-color"
-          onClick={handleFilter}
-        >
-          Filter
-        </button>
-      </div>
-      <div>
-        <button
-          className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-color"
-          onClick={handleClearFilters}
-        >
-          Clear
-        </button>
-      </div>
-    </div>
-  </div>
-  <table className="w-full mb-4">
-    <thead className="bg-gray-200">
-      <tr>
-        <th className="px-4 py-2 text-left font-medium">Date</th>
-        <th className="px-4 py-2 text-left font-medium">Description</th>
-        <th className="px-4 py-2 text-left font-medium">Hours</th>
-        <th className="px-4 py-2 text-left font-medium">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {currentEntries.map((entry) => (
-        <TimeEntry
-          key={entry.id}
-          entry={entry}
-          editing={entry.id === editingEntryId}
-          onEditStart={setEditingEntryId}
-          onEditCancel={() => setEditingEntryId(null)}
-          onEditSave={(updatedEntry) => handleEdit(entry.id, updatedEntry)}
-          onDelete={() => handleDelete(entry.id)}
-        />
-      ))}
-    </tbody>
-  </table>
-  <div className="flex flex-col items-start w-full mb-4">
-    <span className="text-base font-medium text-gray-700">
-      Showing {indexOfFirstEntry + 1}-{indexOfLastEntry} of{' '}
-      {filteredEntries ? filteredEntries.length : 0} entries
-</span>
-<div className="flex flex-row items-center mt-2 space-x-4">
-<button
-className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-color"
-disabled={currentPage === 1}
-onClick={() => handlePageChange(currentPage - 1)}
->
-Previous
-</button>
-<span className="text-base font-medium text-gray-700">
-{currentPage} of {totalPages}
-</span>
-<button
-className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-color"
-disabled={currentPage === totalPages}
-onClick={() => handlePageChange(currentPage + 1)}
->
-Next
-</button>
+<div>
+<TimeEntryForm
+onSubmit={(entry) => setFilteredEntries([...filteredEntries, entry])}
+/>
+<div>
+<label htmlFor="search">Search:</label>
+<input
+type="text"
+id="search"
+value={searchTerm}
+onChange={(e) => handleSearch(e.target.value)}
+/>
 </div>
-  </div>
-  <div className="text-lg font-medium text-gray-700">Total Hours: {totalHours}</div>
-  <ErrorList error={error} />
+<div>
+<label htmlFor="sort">Sort by:</label>
+<select
+id="sort"
+value={sortType}
+onChange={(e) => handleSort(e.target.value as SortType)}
+>
+<option value="date">Date</option>
+<option value="hours">Hours</option>
+</select>
+</div>
+<div>
+<label htmlFor="entriesPerPage">Entries per page:</label>
+<select
+id="entriesPerPage"
+value={entriesPerPage}
+onChange={(e) => setEntriesPerPage(parseInt(e.target.value))}
+>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+<div>
+<label htmlFor="dateFilterStart">Start Date:</label>
+<input
+type="date"
+id="dateFilterStart"
+value={dateFilterStart ? dateFilterStart.toISOString().split('T')[0] : ''}
+onChange={handleDateFilterStartChange}
+/>
+<label htmlFor="dateFilterEnd">End Date:</label>
+<input
+type="date"
+id="dateFilterEnd"
+value={dateFilterEnd ? dateFilterEnd.toISOString().split('T')[0] : ''}
+onChange={handleDateFilterEndChange}
+/>
+<button onClick={handleFilter}>Filter</button>
+<button onClick={handleClearFilters}>Clear Filters</button>
+</div>
+{error && <ErrorList errors={[error]} />}
+<Timesheet
+entries={currentEntries}
+onDelete={handleDelete}
+onEdit={(id) => setEditingEntryId(id)}
+/>
+<div>
+{filteredEntries.length > entriesPerPage && (
+<ul>
+{Array(Math.ceil(filteredEntries.length / entriesPerPage))
+.fill(null)
+.map((_, i) => (
+<li key={i}>
+<button onClick={() => handlePageChange(i + 1)}>
+{i + 1}
+</button>
+</li>
+))}
+</ul>
+)}
+</div>
+{editingEntryId && (
+<TimeEntryForm
+entry={filteredEntries.find((entry) => entry.id === editingEntryId)}
+onSubmit={(entry) => handleEdit(editingEntryId, entry)}
+onCancel={() => setEditingEntryId(null)}
+/>
+)}
 </div>
 );
 };
 
-export default TimeEntryList;
-
 export const getServerSideProps: GetServerSideProps = async () => {
-const entries: TimeEntry[] = await res.json();
+  const res = await fetch(`${process.env.API_BASE_URL || 'http://localhost:3000'}/time-entries`);
+  const entries = await res.json();
+  return { props: { entries } };
+};
 
-return {
-props: {
-entries,
-},
-};
-};
+export default TimeEntryList;

@@ -4,44 +4,60 @@ import styles from './Timesheet.module.css';
 
 type TimesheetProps = {
   timeEntries: TimeEntry[];
+  onEditEntry: (entry: TimeEntry) => void;
+  onDeleteEntry: (entry: TimeEntry) => void;
 };
 
-const Timesheet: React.FC<TimesheetProps> = ({ timeEntries }) => {
-  const [selectedEntry, setSelectedEntry] = useState<TimeEntry | null>(null);
+const Timesheet: React.FC<TimesheetProps> = ({
+  timeEntries,
+  onEditEntry,
+  onDeleteEntry,
+}) => {
+  const [selectedEntryId, setSelectedEntryId] = useState<number | null>(null);
 
   const handleEditEntry = (entry: TimeEntry) => {
-    setSelectedEntry(entry);
+    onEditEntry(entry);
+    setSelectedEntryId(entry.id);
   };
 
   const handleDeleteEntry = (entry: TimeEntry) => {
-    // TODO: Implement delete functionality
+    onDeleteEntry(entry);
+    setSelectedEntryId(null);
+  };
+
+  const handleEntryClick = (entry: TimeEntry) => {
+    setSelectedEntryId(entry.id);
+  };
+
+  const handleModalClose = () => {
+    setSelectedEntryId(null);
   };
 
   const renderTimeEntries = () => {
-if (!timeEntries || timeEntries.length === 0) {
-  return <p>No time entries found.</p>;
-}
+    if (!timeEntries || timeEntries.length === 0) {
+      return <p>No time entries found.</p>;
+    }
 
     return (
-      <table className={classNames(styles.table)}>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>Date</th>
-            <th>Project</th>
-            <th>Category</th>
             <th>Description</th>
-            <th>Duration</th>
+            <th>Hours</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {timeEntries.map((entry) => (
-            <tr key={entry.id} className={classNames({ [styles.evenRow]: entry.id % 2 === 0, [styles.hoverRow]: !selectedEntry || selectedEntry.id !== entry.id })}>
+            <tr
+              key={entry.id}
+              className={selectedEntryId === entry.id ? styles.rowSelected : styles.row}
+              onClick={() => handleEntryClick(entry)}
+            >
               <td>{entry.date}</td>
-              <td>{entry.project}</td>
-              <td>{entry.category}</td>
               <td>{entry.description}</td>
-              <td>{entry.duration}</td>
+              <td>{entry.hours}</td>
               <td>
                 <button onClick={() => handleEditEntry(entry)}>Edit</button>
                 <button onClick={() => handleDeleteEntry(entry)}>Delete</button>
@@ -57,11 +73,11 @@ if (!timeEntries || timeEntries.length === 0) {
     <div className={styles.timesheet}>
       <h1>Timesheet</h1>
       {renderTimeEntries()}
-      {selectedEntry && (
-        <div className={classNames(styles.modal)}>
-          <h2>Edit Time Entry</h2>
+      {selectedEntryId !== null && (
+        <div className={styles.modal} role="dialog" aria-labelledby="edit-modal-title">
+          <h2 id="edit-modal-title">Edit Time Entry</h2>
           {/* TODO: Implement edit form */}
-          <button onClick={() => setSelectedEntry(null)}>Close</button>
+          <button onClick={handleModalClose}>Close</button>
         </div>
       )}
     </div>
