@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "./ReportExport.module.css";
 
 type ReportExportProps = {
   data: any[]; // replace `any` with the type of your data
@@ -32,23 +31,23 @@ const ReportExport: React.FC<ReportExportProps> = ({ data, onExport }) => {
   };
 
   return (
-    <div className={styles.reportExport}>
-      <h3 className={styles.title}>Generate Report or Export Data</h3>
-      <div className={styles.formatSelect}>
-        <label htmlFor="formatSelect" className={styles.label}>
+    <div>
+      <h3>Generate Report or Export Data</h3>
+      <div>
+        <label htmlFor="formatSelect">
           Report Format:
         </label>
         <select
           id="formatSelect"
           value={reportFormat}
           onChange={(e) => setReportFormat(e.target.value as "csv" | "pdf")}
-          className={styles.select}
+         
         >
           <option value="csv">CSV</option>
           <option value="pdf">PDF</option>
         </select>
       </div>
-      <button onClick={handleExportClick} className={styles.exportBtn}>
+      <button onClick={handleExportClick}>
         Export Data
       </button>
     </div>

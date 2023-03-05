@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import TimeEntry from "../../types/TimeEntry";
-import {TimeEntryForm} from "../TimeEntryForm/TimeEntryForm";
-import { deleteTimeEntry} from "../../api/time-entries";
-import { GetServerSideProps } from "next";
+import { TimeEntryForm } from "../TimeEntryForm/TimeEntryForm";
+import { getTimeEntries, AddTimeEntry, DeleteTimeEntry, ApiResponse, ApiResult } from "../../api/timeEntries";
+import type { GetServerSideProps } from "next";
 import { Timesheet } from "../Timesheet/Timesheet";
 import { CalendarIntegration } from "../CalendarIntegration/CalendarIntegration";
 
 type Props = {
   entries: TimeEntry[];
   onFilteredEntries: (filteredEntries: TimeEntry[]) => void;
+   errors: { field: string; message: string }[];
 };
 
 type SortType = "date" | "hours";
@@ -16,48 +16,75 @@ type SortType = "date" | "hours";
 const ENTRIES_PER_PAGE_OPTIONS = [5, 10, 20];
 const DEFAULT_ENTRIES_PER_PAGE = 5;
 
-const TimeEntryList = ({ entries }: Props) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredEntries, setFilteredEntries] = useState(entries);
-  const [sortType, setSortType] = useState<SortType>("date");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [entriesPerPage, setEntriesPerPage] = useState(
-    DEFAULT_ENTRIES_PER_PAGE
-  );
-  const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
-  const [dateFilterStart, setDateFilterStart] = useState<Date | null>(null);
-  const [dateFilterEnd, setDateFilterEnd] = useState<Date | null>(null);
-  const [error, setError] = useState<string | null>(null);
+const TimeEntryList: React.FC<Props> = (props) => {
+  const [entries, setEntries] = useState(props.entries);
+   const [searchTerm, setSearchTerm] = useState("");
+   const [filteredEntries, setFilteredEntries] = useState(entries);
+   const [sortType, setSortType] = useState<SortType>("date");
+   const [currentPage, setCurrentPage] = useState(1);
+   const [entriesPerPage, setEntriesPerPage] = useState(
+     DEFAULT_ENTRIES_PER_PAGE
+   );
+   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
+   const [dateFilterStart, setDateFilterStart] = useState<Date | null>(null);
+   const [dateFilterEnd, setDateFilterEnd] = useState<Date | null>(null);
+   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setFilteredEntries(entries);
-  }, [entries]);
+   useEffect(() => {
+     setFilteredEntries(entries);
+   }, [entries]);
 
   const handleSort = (type: SortType) => {
     setSortType(type);
-    setFilteredEntries((prev) =>
-      [...prev].sort((a, b) =>
-        type === "date"
-          ? a.date < b.date
-            ? -1
-            : 1
-          : a.hours < b.hours
-          ? 1
-          : -1
+    setEntries([...prev].sort((a, b) =>
+      type === "date"
+        ? a.date < b.date
+          ? -1
+          : 1
+        : a.hours < b.hours
+        ? 1
+        : -1
+    ));
+
+    setEntries(
+      entries.filter(
+        (entry) =>
+          new Date(entry.date) >= dateFilterStart &&
+          new Date(entry.date) <= dateFilterEnd
       )
     );
+
+    setEntries(
+      term
+        ? props.entries.filter((entry) =>
+            entry.description.toLowerCase().includes(term.toLowerCase())
+          )
+        : props.entries
+    );
+
+    setEntries(prev.filter((entry) => entry.id !== id));
   };
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleEdit = (id: string, updatedEntry: TimeEntry) => {
-    setFilteredEntries((prev) =>
-      prev.map((entry) => (entry.id === id ? updatedEntry : entry))
-    );
-    setEditingEntryId(null);
-  };
+const handleEdit = async (id: string, updatedEntry: TimeEntry) => {
+  try {
+    const result: ApiResult<TimeEntry> = await addTimeEntry(updatedEntry);
+    if (result.success) {
+      setEntries((prev) =>
+        prev.map((entry) => (entry.id === id ? result.data : entry))
+      );
+      setEditingEntryId(null);
+    } else {
+      setError(result.error.message);
+    }
+  } catch (error) {
+    setError(error.message);
+  }
+};
+
 
   const handleFilter = () => {
     if (!dateFilterStart || !dateFilterEnd) {
@@ -105,25 +132,37 @@ const TimeEntryList = ({ entries }: Props) => {
     );
   };
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteTimeEntry(id);
-      setFilteredEntries((prev) => prev.filter((entry) => entry.id !== id));
-    } catch (error) {
-      setError(error.message);
+const handleDelete = async (id: string) => {
+  try {
+    const result: ApiResult<never> = await deleteTimeEntry(id);
+    if (result.success) {
+      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+    } else {
+      setError(result.error.message);
     }
-  };
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    setFilteredEntries(
-      term
-        ? entries.filter((entry) =>
-            entry.description.toLowerCase().includes(term.toLowerCase())
-          )
-        : entries
-    );
-  };
+  } catch (error) {
+    setError(error.message);
+  }
+};
+const handleSearch = async (term: string) => {
+  setSearchTerm(term);
+  try {
+    const result: ApiResult<TimeEntry[]> = await getTimeEntries();
+    if (result.success) {
+      setEntries(
+        term
+          ? result.data.filter((entry) =>
+              entry.description.toLowerCase().includes(term.toLowerCase())
+            )
+          : result.data
+      );
+    } else {
+      setError(result.error.message);
+    }
+  } catch (error) {
+    setError(error.message);
+  }
+};
 
   const handleDateSelected = (date: Date | null) => {
     // Filter entries to show only those for the selected date
@@ -217,7 +256,15 @@ const TimeEntryList = ({ entries }: Props) => {
         <button onClick={handleFilter}>Filter</button>
         <button onClick={handleClearFilters}>Clear Filters</button>
       </div>
-      {error && <ErrorList errors={[error]} />}
+      <h2>Error</h2>
+           <ul>
+             {errors.map(({ field, message }) => (
+               <li key={field}>
+                 <strong>{field}: </strong>
+                 {message}
+               </li>
+             ))}
+           </ul>
       <Timesheet
         entries={currentEntries}
         onDelete={handleDelete}
@@ -250,12 +297,33 @@ const TimeEntryList = ({ entries }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(
-    `${process.env.API_BASE_URL || "http://localhost:3000"}/time-entries`
-  );
-  const entries = await res.json();
-  return { props: { entries } };
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  try {
+    const result: ApiResult<TimeEntry[]> = await getTimeEntries();
+    if (result.success) {
+      return {
+        props: {
+          entries: result.data,
+          errors: [],
+        },
+      };
+    } else {
+      return {
+        props: {
+          entries: [],
+          errors: [{ field: "server", message: result.error.message }],
+        },
+      };
+    }
+  } catch (error) {
+    return {
+      props: {
+        entries: [],
+        errors: [{ field: "server", message: error.message }],
+      },
+    };
+  }
 };
+
 
 export default TimeEntryList;

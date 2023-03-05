@@ -1,10 +1,7 @@
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import styles from "./CalendarIntegration.module.css";
-import TimeEntry from "../../types/TimeEntry";
-import {TimeEntryList} from "../TimeEntryList/TimeEntryList";
+import { TimeEntryList } from "../TimeEntryList/TimeEntryList";
 import nbLocale from "moment/locale/nb";
 
 type CalendarIntegrationProps = {
@@ -54,13 +51,13 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
   moment.locale("nb", nbLocale);
 
   return (
-    <div className={styles.calendarContainer}>
-      <h3 className={styles.title}>Kalenderintegrasjon</h3>
-      <div className={styles.calendar}>
-        <div className={styles.calendarLeft}>
+    <div>
+      <h3>Kalenderintegrasjon</h3>
+      <div>
+        <div>
           {typeof window !== "undefined" && (
             <Calendar
-              className={styles.dynamicCalendar}
+             
               value={date}
               onChange={handleDateChange}
               tileDisabled={tileDisabled}
@@ -98,7 +95,7 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
             />
           )}
         </div>
-        <div className={styles.calendarRight}>
+        <div>
           <TimeEntryList events={events} />
         </div>
       </div>

@@ -10,9 +10,6 @@ export default {
     },
     externalHelpers: true,
   },
-  module: {
-    type: "commonjs",
-  },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
   }

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { TimeEntry } from "../types/TimeEntry";
+import { TimeEntry, handleDeleteTimeEntry, handleSearchChange} from "../api/TimeEntry";
 import {ErrorList} from "../ErrorList/ErrorList";
-import styles from "./TimeEntryForm.module.css";
 import {TimeAdjustment} from "../TimeAdjustment/TimeAdjustment";
 import {ReportExport} from "../ReportExport/ReportExport";
 import {Filter} from "../Filter/Filter";
@@ -100,55 +99,55 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
   };
 
   return (
-    <div className={styles.timeEntryForm}>
+    <div>
       <Filter timeEntries={timeEntries} onFilter={handleFilter} />
-      <form onSubmit={handleSubmit} className={styles.formInputs}>
-        <div className={styles.formGroup}>
-          <label htmlFor="hours" className={styles.formLabel}>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="hours">
             Hours:
           </label>
           <input
             type="number"
             id="hours"
             name="hours"
-            className={styles.formControl}
+           
             required         value={hours}
         onChange={handleHoursChange}
       />
     </div>
-    <div className={styles.formGroup}>
-      <label htmlFor="comment" className={styles.formLabel}>
+    <div>
+      <label htmlFor="comment">
         Comment:
       </label>
       <textarea
         id="comment"
         name="comment"
-        className={styles.formControl}
+       
         required
         value={comment}
         onChange={handleCommentChange}
       ></textarea>
     </div>
-    <div className={styles.formGroup}>
-      <button type="submit" className={styles.submitButton}>
+    <div>
+      <button type="submit">
         Add Entry
       </button>
     </div>
     {formErrors.length > 0 && <ErrorList errors={formErrors} />}
-    <div className={styles.search}>
-      <label htmlFor="search" className={styles.searchLabel}>
+    <div>
+      <label htmlFor="search">
         Search:
       </label>
       <input
         type="text"
         id="search"
         name="search"
-        className={styles.searchInput}
+       
         value={searchTerm}
         onChange={handleSearchChange}
       />
     </div>
-    <table className={styles.table}>
+    <table>
       <thead>
         <tr>
           <th>Date</th>
@@ -165,7 +164,7 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
             <td>{entry.comment}</td>
             <td>
               <button
-                className={styles.deleteButton}
+               
                 onClick={() => handleDeleteTimeEntry(entry.id)}
               >
                 Delete

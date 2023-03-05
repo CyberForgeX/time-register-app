@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TimeEntry from "../../types/TimeEntry";
-import styles from "./Timesheet.module.css";
 
 type TimesheetProps = {
   timeEntries: TimeEntry[];
@@ -39,7 +38,7 @@ const Timesheet: React.FC<TimesheetProps> = ({
     }
 
     return (
-      <table className={styles.table}>
+      <table>
         <thead>
           <tr>
             <th>Date</th>
@@ -72,12 +71,12 @@ const Timesheet: React.FC<TimesheetProps> = ({
   };
 
   return (
-    <div className={styles.timesheet}>
+    <div>
       <h1>Timesheet</h1>
       {renderTimeEntries()}
       {selectedEntryId !== null && (
         <div
-          className={styles.modal}
+         
           role="dialog"
           aria-labelledby="edit-modal-title"
         >

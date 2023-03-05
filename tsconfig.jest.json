@@ -11,8 +11,12 @@
     "strictPropertyInitialization": false,
     "strictBindCallApply": true,
     "target": "esnext",
-    "module": "commonjs"
+    "module": "module"
   },
-  "include": ["__tests__/**/*.ts", "__tests__/**/*.tsx"],
+"include": [
+  "__tests__/**/*.ts",
+  "__tests__/**/*.tsx",
+  "__tests__/**/*.mjs"
+],
   "exclude": ["node_modules"]
 }

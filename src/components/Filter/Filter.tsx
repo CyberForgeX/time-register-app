@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TimeEntry from "../../types/TimeEntry";
-import styles from "./Filter.module.css";
 
 type FilterProps = {
   timeEntries: TimeEntry[];
@@ -44,29 +43,29 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
   };
 
   return (
-    <div className={styles.filterContainer}>
-      <h3 className={styles.title}>Filter</h3>
-      <div className={styles.filter}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="date" className={styles.label}>
+    <div>
+      <h3>Filter</h3>
+      <div>
+        <div>
+          <label htmlFor="date">
             Date:
           </label>
           <input
             type="date"
             id="date"
-            className={styles.input}
+           
             value={selectedDate?.toISOString().substr(0, 10) || ""}
             onChange={(e) => handleDateSelected(new Date(e.target.value))}
           />
         </div>
 
-        <div className={styles.inputGroup}>
-          <label htmlFor="project" className={styles.label}>
+        <div>
+          <label htmlFor="project">
             Project:
           </label>
           <select
             id="project"
-            className={styles.input}
+           
             value={selectedProject || ""}
             onChange={(e) => setSelectedProject(e.target.value)}
           >
@@ -77,13 +76,13 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
           </select>
         </div>
 
-        <div className={styles.inputGroup}>
-          <label htmlFor="category" className={styles.label}>
+        <div>
+          <label htmlFor="category">
             Category:
           </label>
           <select
             id="category"
-            className={styles.input}
+           
             value={selectedCategory || ""}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
@@ -94,7 +93,7 @@ const Filter: React.FC<FilterProps> = ({ timeEntries, onFilter }) => {
           </select>
         </div>
 
-        <button className={styles.filterButton} onClick={handleFilter}>
+        <button onClick={handleFilter}>
           Filter
         </button>
       </div>
