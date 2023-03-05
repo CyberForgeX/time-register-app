@@ -30,32 +30,32 @@ type ApiErrorResponse = {
 type ApiResult<T> = ApiResponse<T> | ApiErrorResponse;
 
 // Function to handle API errors
-const handleApiError = (error: any) => {
-  if (error.response) {
-    // The request was made and the server responded with a status code
-    // that falls out of the range of 2xx
-    console.error(
-      `API error: ${error.response.status} - ${error.response.statusText}`
-    );
-    return {
-      success: false,
-      error: {
-        message: error.response.data.message,
-        statusCode: error.response.status,
-      },
-    } as ApiResult<never>;
-  } else if (error.request) {
-    // The request was made but no response was received
-    console.error("API error: No response received from server.");
-    return {
-      success: false,
-      error: {
-        message: "No response received from server.",
-        statusCode: 0,
-      },
-    } as ApiResult<never>;
+const handleApiError = (error: any): ApiResult<never> => {
+  if (axios.isAxiosError(error)) {
+    const response = error.response;
+    if (response) {
+      const status = response.status;
+      console.error(
+        `API error: ${status} - ${response.statusText}`
+      );
+      return {
+        success: false,
+        error: {
+          message: response.data.message,
+          statusCode: status,
+        },
+      };
+    } else {
+      console.error("API error: No response received from server.");
+      return {
+        success: false,
+        error: {
+          message: "No response received from server.",
+          statusCode: 0,
+        },
+      };
+    }
   } else {
-    // Something happened in setting up the request that triggered an Error
     console.error("API error:", error.message);
     return {
       success: false,
@@ -63,7 +63,7 @@ const handleApiError = (error: any) => {
         message: error.message,
         statusCode: 0,
       },
-    } as ApiResult<never>;
+    };
   }
 };
 
@@ -76,7 +76,7 @@ export const getTimeEntries = async (): Promise<ApiResult<TimeEntry[]>> => {
     return {
       success: true,
       data: response.data,
-    } as ApiResult<TimeEntry[]>;
+    };
   } catch (error) {
     return handleApiError(error);
   }
@@ -94,7 +94,7 @@ export const addTimeEntry = async (
     return {
       success: true,
       data: response.data,
-    } as ApiResult<TimeEntry>;
+    };
   } catch (error) {
     return handleApiError(error);
   }
@@ -108,11 +108,8 @@ export const deleteTimeEntry = async (
     await axiosInstance.delete(`/time-entries/${id}`);
     return {
       success: true,
-    } as ApiResult<never>;
+    };
   } catch (error) {
     return handleApiError(error);
   }
 };
-
-
-export { getTimeEntries, addTimeEntry, deleteTimeEntry };

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import TimeEntry from "../../types/TimeEntry";
-import ErrorList from "../ErrorList/ErrorList";
-import TimeEntryForm from "../TimeEntryForm/TimeEntryForm";
-import { deleteTimeEntry } from "../api/time-entries";
+import {TimeEntryForm} from "../TimeEntryForm/TimeEntryForm";
+import { deleteTimeEntry} from "../../api/time-entries";
 import { GetServerSideProps } from "next";
 import { Timesheet } from "../Timesheet/Timesheet";
 import { CalendarIntegration } from "../CalendarIntegration/CalendarIntegration";

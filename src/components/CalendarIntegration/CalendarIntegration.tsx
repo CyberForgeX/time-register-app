@@ -4,8 +4,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import styles from "./CalendarIntegration.module.css";
 import TimeEntry from "../../types/TimeEntry";
-import TimeEntryList from "../TimeEntryList/TimeEntryList";
-import EventList from "../EventList/EventList";
+import {TimeEntryList} from "../TimeEntryList/TimeEntryList";
 import nbLocale from "moment/locale/nb";
 
 type CalendarIntegrationProps = {
@@ -100,7 +99,7 @@ const CalendarIntegration: React.FC<CalendarIntegrationProps> = ({
           )}
         </div>
         <div className={styles.calendarRight}>
-          <EventList events={events} />
+          <TimeEntryList events={events} />
         </div>
       </div>
     </div>

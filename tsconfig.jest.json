@@ -1,7 +1,18 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "jsx": "react"
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "strictBindCallApply": true,
+    "target": "esnext",
+    "module": "commonjs"
   },
-  "include": ["__tests__/**/*.ts", "__tests__/**/*.tsx"]
+  "include": ["__tests__/**/*.ts", "__tests__/**/*.tsx"],
+  "exclude": ["node_modules"]
 }
