@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TimeEntry from "../../types/TimeEntry";
+import TimeEntry from "../types/TimeEntry";
 
 type FilterProps = {
   timeEntries: TimeEntry[];

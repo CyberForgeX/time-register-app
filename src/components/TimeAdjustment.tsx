@@ -15,6 +15,7 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
   const [category, setCategory] = useState<string>("");
   const [hours, setHours] = useState<number>(0);
 
+
   const handleAddTimeEntry = () => {
     const newEntry: TimeEntry = {
       date: date.toISOString(),
@@ -38,10 +39,6 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
       })
       .reduce((total, entry) => total + entry.hours, 0);
 
-    if (totalHoursThisWeek + hours > 100) {
-      alert("You have reached the 100-hour limit for this week.");
-      return;
-    }
 
     onAddTimeEntry(newEntry);
   };
@@ -79,7 +76,6 @@ const TimeAdjustment: React.FC<TimeAdjustmentProps> = ({
         value={hours}
         onChange={(e) => setHours(parseInt(e.target.value))}
       />
-
       <button onClick={handleAddTimeEntry}>Add Time Entry</button>
     </div>
   );

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { TimeEntry, handleDeleteTimeEntry, handleSearchChange} from "../api/TimeEntry";
-import {ErrorList} from "../ErrorList/ErrorList";
-import {TimeAdjustment} from "../TimeAdjustment/TimeAdjustment";
-import {ReportExport} from "../ReportExport/ReportExport";
-import {Filter} from "../Filter/Filter";
+import ErrorList from "./ErrorList";
+import TimeAdjustment from "./TimeAdjustment";
+import ReportExport from "./ReportExport";
+import Filter from "./Filter";
 
 type FormError = {
   field: string;
@@ -28,7 +28,8 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
   const [formErrors, setFormErrors] = useState<FormError[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [reportData, setReportData] = useState<any>(null);
-  const [filteredEntries, setFilteredEntries] = useState<TimeEntry[]>(entries);
+  const [filteredEntries, setFilteredEntries] = useState<TimeEntry[]>(entries || []);
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -67,6 +68,7 @@ const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
 
     return errors;
   };
+
 
   const handleHoursChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHours(parseInt(event.target.value));

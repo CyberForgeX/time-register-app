@@ -1,7 +1,7 @@
-export default {
+module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-setupFilesAfterEnv: ["./jest.setup.ts"],
+  setupFilesAfterEnv: ["./jest.setup.ts"],
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
     "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__tests__/mocks/serverHandlers.mjs",

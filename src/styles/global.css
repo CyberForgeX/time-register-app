@@ -11,11 +11,52 @@ body {
   width: 50vw;
   padding: 0;
   display: grid;
+  align-items: center;
+  justify-content: center;
   grid-template-columns: auto auto auto;
+    position: relative;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 
-@media screen and (max-width: 786px) {
-  body {
-    width: 80vw;
-  }
+
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+main {
+  position: absolute;
+  top: 80px;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

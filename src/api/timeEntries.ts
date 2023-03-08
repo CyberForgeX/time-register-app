@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import TimeEntry from '../types/TimeEntry';
+import {TimeEntry} from '../types/TimeEntry';
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3000";
 
 // Create an Axios instance with default settings
@@ -67,10 +67,10 @@ const handleApiError = (error: any): ApiResult<never> => {
 };
 
 // Function to fetch all time entries
-export const getTimeEntries = async (): Promise<ApiResult<TimeEntry[]>> => {
+export const getTimeEntries = async (API_BASE_URL: string): Promise<ApiResult<TimeEntry[]>> => {
   try {
     const response: AxiosResponse<TimeEntry[]> = await axiosInstance.get(
-      "/time-entries"
+      `${API_BASE_URL || "http://localhost:3000"}/time-entries`
     );
     return {
       success: true,
